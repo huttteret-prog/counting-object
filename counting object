@@ -1,0 +1,46 @@
+const int trigger = 8;
+const int echo = 7;
+
+
+int distance;
+int duration;
+
+bool printed = false;
+
+void setup() {
+pinMode(trigger,OUTPUT);
+pinMode(echo,INPUT);
+Serial.begin(9600);
+
+}
+
+int itemcount = 0;
+void loop(){
+  digitalWrite(trigger,LOW);
+delayMicroseconds(2);
+
+digitalWrite(trigger,HIGH);
+delayMicroseconds(10);
+digitalWrite(trigger,LOW);
+
+duration = pulseIn(echo, HIGH);
+
+distance = 0.034 * duration/2 ; 
+
+
+
+if(distance < 10 && printed==false){
+  Serial.println("object is detected");
+  itemcount++;
+ Serial.print("item count = ");
+  Serial.println(itemcount);
+ printed = true;
+}
+
+if(distance>10 && printed == true){
+  Serial.println("object has disapeared");
+delay(200);
+Serial.println("waiting to detect object");
+  printed=false;
+}
+delay (100); 
